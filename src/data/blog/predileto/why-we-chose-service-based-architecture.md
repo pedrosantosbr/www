@@ -1,6 +1,6 @@
 ---
 author: Pedro Santos
-pubDatetime: 2026-03-25T22:00:00.000Z
+pubDatetime: 2026-03-25T19:00:00.000Z
 title: Predileto '#6 - Why We Chose Service-Based Architecture
 slug: why-we-chose-service-based-architecture
 featured: false
