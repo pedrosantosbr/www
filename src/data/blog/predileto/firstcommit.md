@@ -1,31 +1,78 @@
 ---
 author: Pedro Santos
-pubDatetime: 2026-03-24T04:59:04.866Z
-modDatetime: 2026-03-24T13:39:20.763Z
-title: Predileto '#2 - First Commit
+pubDatetime: 2026-03-23T04:59:04.866Z
+modDatetime: 2026-03-25T10:00:00.000Z
+title: Predileto '#1 - First Commit
 slug: first-commit
-featured: false
+featured: true
 draft: false
 tags:
   - ai
-  - real state
-description: A new intelligent platform for real state agencies
+  - real-estate
+description: How a frustrating apartment search in Portugal turned into Predileto — an AI-powered platform for real estate agencies.
 category: Personal Projects
 ---
 
-A new intelligent platform for real state agencies.
+How a frustrating apartment search in Portugal turned into a full-blown AI platform for real estate agencies. This is the origin story.
 
 ## Table of contents
 
-## Intro
+## It started with a terrible apartment search
 
-I decided to dig into the real state world after my wife and I decided to move to another apartment. It was a horrorible experience... lots of websites to search, outdated data, bad websites, no responses when reaching the property owners or agencies...
+My wife and I decided to move to another apartment. Simple enough, right?
 
-However, switching between one and other website was the worstest. So I decided to create `Predileto`! A vertical search engine that will search all properties to buy/rent.
+Wrong. What followed was weeks of pain: dozens of websites with outdated listings, broken search filters, properties that were sold months ago still showing as available, and agencies that never replied. We'd find something promising on one site, switch to another to compare prices, lose track of what we'd already seen, and start over.
 
-In the mean time, while I was scraping all existing properties from local agencies, I learned that these agencies doesn't have a good CRM. The one they most use is expensive, bad looking, and hard to use due lots of useless feature. I saw a big opportunity here. Talked with a few agencies to understand they needs and discover that there're still a lot of manual processess like applicants documents intake, properties registration, etc. Then I thought, why not automate the process of booking visits, registering properties by leveraging OCR, building contracts... As a software developer I noticed that I could reduce their manual work in 80% so they focus only aquiring new customers and sending them to this new intelligent platform.
+The worst part was the constant context-switching between platforms. Every agency has their own website, their own listings, their own way of doing things. There's no single place to search everything.
 
+So I did what any frustrated software engineer would do — I decided to build one.
 
-## Next Steps
+## Enter Predileto
 
-In the following posts I will be showing the features I will build as well as the tech aspects of their implementation. I will cover a lot of cool topics like RAG, Microservices, System Design, Software Engineering, Management and etc. Hope you enjoy it!
+The initial idea was straightforward: build a vertical search engine that aggregates properties for sale and rent across all Portuguese agencies. One search, all listings, no more tab hell.
+
+I started scraping property data from local agencies to build the index. And that's when things got interesting.
+
+## The real problem
+
+While scraping agency websites, I started talking to the people behind them. I wanted to understand their data, their workflows, their pain points. What I found surprised me.
+
+These agencies are drowning in manual work. The CRM most of them use is expensive, ugly, and bloated with features nobody asked for. But the real bottleneck isn't the CRM — it's everything around it:
+
+- **Property registration** — an agent receives a stack of PDFs (deeds, tax documents, ID cards) and manually types every field into the system. Address, area, bedrooms, owner names, NIF numbers — all copy-pasted from scanned documents.
+- **Applicant screening** — tenants submit documents that need to be reviewed, cross-referenced, and approved. Mostly by hand.
+- **Contract generation** — drafting rental or purchase contracts means copying a template, finding the right clauses, and filling in dozens of fields. Every time.
+- **Visit scheduling** — coordinating between owners, agents, and potential buyers/tenants through phone calls and WhatsApp messages.
+
+I talked to enough agencies to see the pattern. These are smart people spending 60-70% of their time on repetitive administrative tasks instead of what they're actually good at: finding clients and closing deals.
+
+As a software engineer who's spent years building data pipelines, RAG systems, and async architectures — I saw the opportunity immediately. Most of this manual work can be automated with the tools we have today: OCR, LLMs, structured extraction, queue-based processing.
+
+## What Predileto became
+
+Predileto evolved from a search engine into an AI-powered platform for real estate agencies. The vision:
+
+1. **Smart property ingestion** — upload property documents and ID cards, and the system automatically registers the property and its owners into the database. OCR with Reducto, structured extraction with GPT-5.4, document-type-aware prompts for each Portuguese ID format.
+
+2. **Contract intelligence** — upload a source contract, and the system parses it, classifies each section (static, parameterized, conditional, generative), and produces reusable Jinja templates. New contracts are generated by filling templates with CRM data.
+
+3. **Applicant screening** — tenants submit their documents through a portal, and the system extracts, validates, and scores their application automatically.
+
+4. **Unified search** — the original idea lives on. A single search across all agencies, with fresh data.
+
+The tech stack: Python, FastAPI, hexagonal architecture, SQS workers, Reducto for OCR, LangChain + GPT-5.4 for structured extraction, PostgreSQL, S3, and Terraform for infrastructure. Everything async, everything behind abstract ports so pieces can be swapped without touching business logic.
+
+## What's coming next
+
+This blog series will document the build in detail. Real code, real architecture decisions, real trade-offs. Topics I'll cover:
+
+- **RAG pipelines** for document analysis and contract generation
+- **Structured LLM output** with Pydantic schemas and LangChain
+- **Hexagonal architecture** in Python — ports, adapters, and why it matters
+- **Async SQS workers** with heartbeat-based visibility extension
+- **Testing strategies** for AI-powered services without spinning up Docker
+- **System design** for document processing at scale
+
+Each post focuses on a specific feature with the actual implementation. No toy examples, no hand-waving.
+
+Let's build.

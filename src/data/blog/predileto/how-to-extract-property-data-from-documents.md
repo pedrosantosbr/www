@@ -1,7 +1,7 @@
 ---
 author: Pedro Santos
-pubDatetime: 2026-03-23T04:59:04.866Z
-title: Predileto '#1 - Automated Property Ingestion with Document AI
+pubDatetime: 2026-03-24T04:59:04.866Z
+title: Predileto '#2 - Automated Property Ingestion with Document AI
 slug: how-to-extract-property-data-from-documents
 featured: false
 draft: false
