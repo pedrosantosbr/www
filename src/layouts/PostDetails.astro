@@ -292,14 +292,16 @@ const nextPost =
     window.scrollTo({ left: 0, top: 0, behavior: "instant" })
   );
 
-  /** Render mermaid diagrams with theme-aware colors */
+</script>
+
+<script>
+  // Bundled script — Astro processes `import` through Vite
   async function initMermaid() {
     const nodes = document.querySelectorAll(".mermaid");
     if (!nodes.length) return;
 
     const { default: mermaid } = await import("mermaid");
 
-    // Store source text before first render (for theme-toggle re-render)
     for (const node of nodes) {
       if (!node.getAttribute("data-source")) {
         node.setAttribute("data-source", node.textContent || "");
@@ -317,11 +319,9 @@ const nextPost =
   }
   initMermaid();
 
-  // Re-render diagrams on theme toggle
   const observer = new MutationObserver(mutations => {
     for (const m of mutations) {
       if (m.attributeName === "data-theme") {
-        // Restore source and re-render
         for (const node of document.querySelectorAll(".mermaid")) {
           const src = node.getAttribute("data-source");
           if (src) {
@@ -334,4 +334,6 @@ const nextPost =
     }
   });
   observer.observe(document.documentElement, { attributes: true });
+
+  document.addEventListener("astro:after-swap", () => initMermaid());
 </script>
