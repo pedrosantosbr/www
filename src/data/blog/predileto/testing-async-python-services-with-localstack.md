@@ -1,6 +1,6 @@
 ---
 author: Pedro Santos
-pubDatetime: 2026-03-25T14:00:00.000Z
+pubDatetime: 2026-03-25T04:59:04.866Z
 title: Predileto '#3 - Testing Async Python Services with LocalStack and SQLite
 slug: testing-async-python-services-with-localstack
 featured: false
