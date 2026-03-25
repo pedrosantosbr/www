@@ -1,8 +1,8 @@
 ---
 author: Pedro Santos
-pubDatetime: 2026-03-24T04:59:04.866Z
-modDatetime: 2026-03-24T10:00:00.000Z
-title: Predileto '#2 - Building an AI Contract Generation Pipeline
+pubDatetime: 2026-03-25T04:59:04.866Z
+modDatetime: 2026-03-25T10:00:00.000Z
+title: Predileto '#3 - Building an AI Contract Generation Pipeline
 slug: how-to-generate-contracts-with-rag
 featured: false
 draft: false
