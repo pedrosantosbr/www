@@ -89,6 +89,13 @@
     pre {
       @apply focus-visible:border-transparent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-dashed;
     }
+
+    .mermaid {
+      @apply flex justify-center my-4;
+    }
+    .mermaid:not([data-processed]) {
+      @apply invisible;
+    }
   }
 
   /* ===== Code Blocks & Syntax Highlighting ===== */

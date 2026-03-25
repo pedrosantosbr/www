@@ -9,6 +9,7 @@ import {
   transformerNotationWordHighlight,
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
+import { transformerMermaid } from "./src/utils/transformers/mermaid";
 import { SITE } from "./src/config";
 
 // https://astro.build/config
@@ -27,6 +28,7 @@ export default defineConfig({
       defaultColor: false,
       wrap: false,
       transformers: [
+        transformerMermaid(),
         transformerFileName({ style: "v2", hideDot: false }),
         transformerNotationHighlight(),
         transformerNotationWordHighlight(),

@@ -10,7 +10,7 @@ type Props = {
 
 const { variant: Heading = "h2", id, data, filePath } = Astro.props;
 
-const { title, description, ...props } = data;
+const { title, description, category, ...props } = data;
 ---
 
 <li class="my-6">
@@ -29,5 +29,11 @@ const { title, description, ...props } = data;
     </Heading>
   </a>
   <Datetime {...props} />
+  <a
+    href={`/categories/${slugifyStr(category)}/`}
+    class="text-xs opacity-70 hover:text-accent"
+  >
+    {category}
+  </a>
   <p>{description}</p>
 </li>

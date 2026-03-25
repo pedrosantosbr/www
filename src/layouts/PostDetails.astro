@@ -13,6 +13,7 @@ import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
+import Category from "@/components/Category.astro";
 import { SITE } from "@/config";
 
 type Props = {
@@ -32,6 +33,7 @@ const {
   modDatetime,
   timezone,
   tags,
+  category,
   hideEditPost,
 } = post.data;
 
@@ -107,6 +109,13 @@ const nextPost =
       >
       <EditPost {hideEditPost} {post} class="max-sm:hidden" />
     </div>
+    <ul class="my-2 flex">
+      <Category
+        category={category}
+        categorySlug={slugifyStr(category)}
+        size="sm"
+      />
+    </ul>
     <article
       id="article"
       class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
@@ -282,4 +291,47 @@ const nextPost =
   document.addEventListener("astro:after-swap", () =>
     window.scrollTo({ left: 0, top: 0, behavior: "instant" })
   );
+
+  /** Render mermaid diagrams with theme-aware colors */
+  async function initMermaid() {
+    const nodes = document.querySelectorAll(".mermaid");
+    if (!nodes.length) return;
+
+    const { default: mermaid } = await import("mermaid");
+
+    // Store source text before first render (for theme-toggle re-render)
+    for (const node of nodes) {
+      if (!node.getAttribute("data-source")) {
+        node.setAttribute("data-source", node.textContent || "");
+      }
+    }
+
+    const isDark =
+      document.documentElement.getAttribute("data-theme") === "dark";
+
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: isDark ? "dark" : "default",
+    });
+    await mermaid.run({ nodes });
+  }
+  initMermaid();
+
+  // Re-render diagrams on theme toggle
+  const observer = new MutationObserver(mutations => {
+    for (const m of mutations) {
+      if (m.attributeName === "data-theme") {
+        // Restore source and re-render
+        for (const node of document.querySelectorAll(".mermaid")) {
+          const src = node.getAttribute("data-source");
+          if (src) {
+            node.removeAttribute("data-processed");
+            node.innerHTML = src;
+          }
+        }
+        initMermaid();
+      }
+    }
+  });
+  observer.observe(document.documentElement, { attributes: true });
 </script>
