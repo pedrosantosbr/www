@@ -4,7 +4,7 @@ pubDatetime: 2026-03-24T04:59:04.866Z
 modDatetime: 2026-03-25T10:00:00.000Z
 title: Predileto '#2 - Building an AI Contract Generation Pipeline
 slug: how-to-generate-contracts-with-rag
-featured: true
+featured: false
 draft: false
 tags:
   - ai
@@ -34,6 +34,8 @@ We needed a system that could:
 4. **Generate** new contracts by filling templates with CRM data
 
 ## Architecture overview
+
+![Predileto contract intelligence service architecture](@/assets/images/predileto-architecture-1.png)
 
 The service follows **hexagonal architecture** (ports & adapters) with async Python, FastAPI, and SQS-based workers.
 
