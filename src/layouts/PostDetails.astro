@@ -315,7 +315,7 @@ const nextPost =
       startOnLoad: false,
       theme: isDark ? "dark" : "default",
     });
-    await mermaid.run({ nodes });
+    await mermaid.run({ nodes: nodes as unknown as ArrayLike<HTMLElement> });
   }
   initMermaid();
 
