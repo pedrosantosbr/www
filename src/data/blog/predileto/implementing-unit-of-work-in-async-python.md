@@ -3,7 +3,7 @@ author: Pedro Santos
 pubDatetime: 2026-03-31T10:00:00.000Z
 title: Predileto '#11 - Implementing the Unit of Work Pattern in Async Python
 slug: implementing-unit-of-work-in-async-python
-featured: true
+featured: false
 draft: false
 tags:
   - python
