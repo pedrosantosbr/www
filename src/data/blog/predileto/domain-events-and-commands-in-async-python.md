@@ -1,6 +1,6 @@
 ---
 author: Pedro Santos
-pubDatetime: 2026-03-31T14:00:00.000Z
+pubDatetime: 2026-03-31T10:30:00.000Z
 title: Predileto '#12 - Domain Events and Command Queues in Async Python
 slug: domain-events-and-commands-in-async-python
 featured: false
