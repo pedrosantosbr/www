@@ -1,7 +1,7 @@
 ---
 author: Pedro Santos
 pubDatetime: 2026-03-28T10:00:00.000Z
-title: Predileto '#10 - DDD and Hexagonal Architecture in a Python Backend
+title: Predileto '#9 - DDD and Hexagonal Architecture in a Python Backend
 slug: ddd-and-hexagonal-architecture-in-python
 featured: true
 draft: false

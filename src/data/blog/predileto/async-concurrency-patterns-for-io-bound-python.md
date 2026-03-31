@@ -1,7 +1,7 @@
 ---
 author: Pedro Santos
 pubDatetime: 2026-03-28T14:00:00.000Z
-title: Predileto '#9 - Async Concurrency Patterns for IO-Bound Python Services
+title: Predileto '#10 - Async Concurrency Patterns for IO-Bound Python Services
 slug: async-concurrency-patterns-for-io-bound-python
 featured: false
 draft: false
