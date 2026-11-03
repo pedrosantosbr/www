@@ -1,39 +1,64 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import tzPlugin from "dayjs/plugin/timezone";
 import { slugifyStr } from "@/utils/slugify";
 import { getPath } from "@/utils/getPath";
-import Datetime from "./Datetime.astro";
+import { readingTime } from "@/utils/readingTime";
+import { SITE } from "@/config";
+
+dayjs.extend(utc);
+dayjs.extend(tzPlugin);
 
 type Props = {
   variant?: "h2" | "h3";
+  /** dayjs format for the date column (year-grouped lists drop the year) */
+  dateFormat?: string;
 } & CollectionEntry<"blog">;
 
-const { variant: Heading = "h2", id, data, filePath } = Astro.props;
+const {
+  variant: Heading = "h3",
+  dateFormat = "D MMM YYYY",
+  id,
+  data,
+  filePath,
+  body,
+} = Astro.props;
 
-const { title, description, category, ...props } = data;
+const { title, description, pubDatetime, timezone } = data;
+const date = dayjs(pubDatetime).tz(timezone || SITE.timezone);
+const minutes = readingTime(body);
 ---
 
-<li class="my-6">
+<li class="border-b border-rule">
   <a
     href={getPath(id, filePath)}
     class:list={[
-      "inline-block text-lg font-medium text-accent",
-      "decoration-dashed underline-offset-4 hover:underline",
-      "focus-visible:no-underline focus-visible:underline-offset-0",
+      "group -mx-2.5 grid items-baseline gap-x-4 gap-y-1 rounded-[3px] px-2.5 py-3.5 no-underline hover:bg-sheet",
+      "grid-cols-[auto_1fr] [grid-template-areas:'d_r''t_t']",
+      "sm:grid-cols-[minmax(0,1fr)_11ch_6ch] sm:[grid-template-areas:'t_d_r']",
     ]}
   >
-    <Heading
-      style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
+    <div class="[grid-area:t]">
+      <Heading
+        class="font-sans text-[17px] leading-snug font-medium text-ink group-hover:underline group-hover:decoration-accent group-hover:underline-offset-[0.18em]"
+        style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
+      >
+        {title}
+      </Heading>
+      <p class="mt-1 line-clamp-2 font-sans text-[14.5px] leading-normal text-soft">
+        {description}
+      </p>
+    </div>
+    <time
+      datetime={date.toISOString()}
+      class="font-mono text-[12.5px] text-subtle tabular-nums [grid-area:d] sm:text-end"
     >
-      {title}
-    </Heading>
+      {date.format(dateFormat)}
+    </time>
+    <span class="font-mono text-[12.5px] text-subtle tabular-nums [grid-area:r] sm:text-end">
+      {minutes} min
+    </span>
   </a>
-  <Datetime {...props} />
-  <a
-    href={`/categories/${slugifyStr(category)}/`}
-    class="text-xs opacity-70 hover:text-accent"
-  >
-    {category}
-  </a>
-  <p>{description}</p>
 </li>

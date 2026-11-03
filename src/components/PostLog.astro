@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Card from "./Card.astro";
+
+type Props = {
+  posts: CollectionEntry<"blog">[];
+  /** show the Title / Date / Read column labels */
+  columns?: boolean;
+  dateFormat?: string;
+};
+
+const { posts, columns = true, dateFormat } = Astro.props;
+---
+
+<div>
+  {columns && (
+    <div
+      aria-hidden="true"
+      class="label hidden grid-cols-[minmax(0,1fr)_11ch_6ch] gap-x-4 border-b border-ink pb-2 text-[11.5px] tracking-[0.1em] sm:grid"
+    >
+      <span>Title</span>
+      <span class="text-end">Date</span>
+      <span class="text-end">Read</span>
+    </div>
+  )}
+  <ul>
+    {posts.map(post => (
+      <Card {...post} {dateFormat} />
+    ))}
+  </ul>
+</div>

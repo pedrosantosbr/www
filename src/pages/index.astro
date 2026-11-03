@@ -4,11 +4,9 @@ import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
-import LinkButton from "@/components/LinkButton.astro";
-import Card from "@/components/Card.astro";
+import PostLog from "@/components/PostLog.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
 import IconRss from "@/assets/icons/IconRss.svg";
-import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { SITE } from "@/config";
 import { SOCIALS } from "@/constants";
 
@@ -22,75 +20,45 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 <Layout>
   <Header />
   <main id="main-content" data-layout="index" class="app-layout">
-    <section id="hero" class:list={["pt-8 pb-6", "border-b border-border"]}>
-      <!-- <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
-        Mingalaba
-      </h1> -->
-      <a
-        target="_blank"
-        href="/rss.xml"
-        class="inline-block"
-        aria-label="rss feed"
-        title="RSS Feed"
-      >
-        <IconRss
-          width={20}
-          height={20}
-          class="scale-125 stroke-accent stroke-3 rtl:-rotate-90"
-        />
-        <span class="sr-only">RSS Feed</span>
-      </a>
-
-      <p>Welcome to my personal blog! Feel free to snoop around.</p>
-      {
-        // only display if at least one social link is enabled
-        SOCIALS.length > 0 && (
-          <div class="mt-4 flex max-sm:flex-col sm:items-center">
-            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
-            <Socials />
-          </div>
-        )
-      }
+    <section
+      id="hero"
+      class="pt-[clamp(34px,7vw,88px)] pb-[clamp(26px,4vw,40px)]"
+    >
+      <p class="label mb-4 text-[11.5px] tracking-[0.1em]">
+        {SITE.title} · Notes
+      </p>
+      <h1 class="font-serif text-title font-bold tracking-(--text-title--letter-spacing) text-ink">
+        Welcome to my personal blog.
+      </h1>
+      <p class="mt-4 max-w-[34em] font-serif text-read text-soft">
+        Writing about building products, software design and the things I learn
+        along the way. Feel free to snoop around.
+      </p>
+      <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+        <a
+          target="_blank"
+          href="/rss.xml"
+          class="label inline-flex items-center gap-1.5 rounded-[3px] border border-rule px-2 py-1 no-underline hover:border-ink hover:text-ink"
+          title="RSS Feed"
+        >
+          <IconRss class="size-3.5 stroke-current stroke-2" />
+          RSS
+        </a>
+        {SOCIALS.length > 0 && <Socials />}
+      </div>
     </section>
 
-    <!-- {
-      featuredPosts.length > 0 && (
-        <section
-          id="featured"
-          class:list={[
-            "pt-12 pb-6",
-            { "border-b border-border": recentPosts.length > 0 },
-          ]}
-        >
-          <h2 class="text-2xl font-semibold tracking-wide">Featured</h2>
-          <ul>
-            {featuredPosts.map(data => (
-              <Card variant="h3" {...data} />
-            ))}
-          </ul>
-        </section>
-      )
-    } -->
+    {recentPosts.length > 0 && (
+      <section id="recent-posts" class="pt-4 pb-6">
+        <h2 class="label mb-3 text-[11.5px] tracking-[0.1em]">Recent posts</h2>
+        <PostLog posts={recentPosts.slice(0, SITE.postPerIndex)} />
+      </section>
+    )}
 
-    {
-      recentPosts.length > 0 && (
-        <section id="recent-posts" class="pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
-          <ul>
-            {recentPosts.map(
-              (data, index) =>
-                index < SITE.postPerIndex && <Card variant="h3" {...data} />
-            )}
-          </ul>
-        </section>
-      )
-    }
-
-    <div class="my-8 text-center">
-      <LinkButton href="/posts/">
-        All Posts
-        <IconArrowRight class="inline-block rtl:-rotate-180" />
-      </LinkButton>
+    <div class="my-6 text-end">
+      <a href="/posts/" class="label no-underline hover:text-ink">
+        All posts ▸
+      </a>
     </div>
   </main>
   <Footer />
