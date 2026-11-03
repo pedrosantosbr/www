@@ -6,6 +6,7 @@ import Footer from "@/components/Footer.astro";
 import PostStrip from "@/components/post/PostStrip.astro";
 import PostHead from "@/components/post/PostHead.astro";
 import PostEnd from "@/components/post/PostEnd.astro";
+import TocRail from "@/components/post/TocRail.astro";
 import { getPath } from "@/utils/getPath";
 import { readingTime } from "@/utils/readingTime";
 import { SITE } from "@/config";
@@ -31,7 +32,7 @@ const {
 
 const minutes = readingTime(post.body);
 
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 
 let ogImageUrl: string | undefined;
 
@@ -77,6 +78,7 @@ const older = toLink(posts[currentPostIndex + 1]);
   <Header />
   <PostStrip {title} {minutes} />
   <main id="main-content" class="relative mx-auto w-full max-w-wrap px-4 pb-12">
+    <TocRail {headings} />
     <div class="mx-auto max-w-measure" data-pagefind-body>
       <PostHead
         {title}
