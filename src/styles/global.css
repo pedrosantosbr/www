@@ -3,47 +3,92 @@
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
+/* ===== Paper design tokens (see docs/design-system.md) ===== */
 :root,
 html[data-theme="light"] {
-  --background: #fdfdfd;
-  --foreground: #282728;
-  --accent: #006cac;
-  --muted: #e6e6e6;
-  --border: #ece9e9;
+  color-scheme: light;
+  --ground: #f7f5ef;
+  --sheet: #efece3;
+  --ink: #17160f;
+  --soft: #403e35;
+  --subtle: #6a675c;
+  --rule: rgb(23 22 15 / 0.13);
+  --accent: #b32b19;
+  --on-accent: #ffffff;
+  --icode: 7%;
+
+  /* deprecated aliases — removed once every usage is migrated */
+  --background: var(--ground);
+  --foreground: var(--ink);
+  --muted: var(--sheet);
+  --border: var(--rule);
 }
 
 html[data-theme="dark"] {
-  --background: #212737;
-  --foreground: #eaedf3;
-  --accent: #ff6b01;
-  --muted: #343f60;
-  --border: #ab4b08;
+  color-scheme: dark;
+  --ground: #12110e;
+  --sheet: #1b1a16;
+  --ink: #ece8dd;
+  --soft: #cbc6b8;
+  --subtle: #949085;
+  --rule: rgb(236 232 221 / 0.13);
+  --accent: #ff7a5c;
+  --on-accent: #12110e;
+  --icode: 10%;
 }
 
 @theme inline {
-  --font-app: var(--font-google-sans-code);
+  --font-serif: var(--font-literata), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-fira-sans), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-fira-code), ui-monospace, Menlo, Consolas, monospace;
+  --font-app: var(--font-sans);
+
+  --color-ground: var(--ground);
+  --color-sheet: var(--sheet);
+  --color-ink: var(--ink);
+  --color-soft: var(--soft);
+  --color-subtle: var(--subtle);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-accent: var(--accent);
   --color-muted: var(--muted);
   --color-border: var(--border);
+
+  --text-read: clamp(17px, 16.55px + 0.111vw, 18px);
+  --text-read--line-height: 1.65;
+  --text-title: clamp(32px, 4.2vw, 46px);
+  --text-title--line-height: 1.12;
+  --text-title--letter-spacing: -0.012em;
+  --text-h2: clamp(21px, 1.7vw, 24px);
+  --text-h2--line-height: 1.25;
+  --text-label: 12px;
+  --text-label--letter-spacing: 0.08em;
+  --text-ui: 15px;
+
+  --container-wrap: 1180px;
+  --container-measure: 660px;
+
+  --breakpoint-rail: 1100px;
 }
 
 @layer base {
   * {
-    @apply border-border outline-accent/75;
+    @apply border-rule outline-accent;
     scrollbar-width: auto;
-    scrollbar-color: var(--color-muted) transparent;
+    scrollbar-color: var(--color-rule) transparent;
   }
   html {
     @apply overflow-y-scroll scroll-smooth;
   }
   body {
-    @apply flex min-h-svh flex-col bg-background font-app text-foreground selection:bg-accent/75 selection:text-background;
+    @apply flex min-h-svh flex-col bg-ground font-sans text-ink antialiased selection:bg-accent selection:text-on-accent;
   }
   a,
   button {
-    @apply outline-offset-1 outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
+    @apply outline-offset-2 outline-accent focus-visible:outline-2 focus-visible:outline-solid;
   }
   button:not(:disabled),
   [role="button"]:not(:disabled) {
@@ -52,7 +97,11 @@ html[data-theme="dark"] {
 }
 
 @utility max-w-app {
-  @apply max-w-3xl;
+  @apply max-w-measure;
+}
+
+@utility label {
+  @apply font-mono text-label tracking-(--text-label--letter-spacing) text-subtle uppercase;
 }
 
 @utility app-layout {
