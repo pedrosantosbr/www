@@ -63,12 +63,28 @@ export default defineConfig({
   },
   fonts: [
     {
-      name: "Google Sans Code",
-      cssVariable: "--font-google-sans-code",
+      name: "Literata",
+      cssVariable: "--font-literata",
       provider: fontProviders.google(),
-      fallbacks: ["monospace"],
-      weights: [300, 400, 500, 600, 700],
+      fallbacks: ["Georgia", "serif"],
+      weights: ["400 700"],
       styles: ["normal", "italic"],
+    },
+    {
+      name: "Fira Sans",
+      cssVariable: "--font-fira-sans",
+      provider: fontProviders.google(),
+      fallbacks: ["Helvetica Neue", "Arial", "sans-serif"],
+      weights: [400, 500, 700, 800],
+      styles: ["normal", "italic"],
+    },
+    {
+      name: "Fira Code",
+      cssVariable: "--font-fira-code",
+      provider: fontProviders.google(),
+      fallbacks: ["ui-monospace", "Menlo", "monospace"],
+      weights: [400, 500, 600],
+      styles: ["normal"],
     },
   ],
 });
