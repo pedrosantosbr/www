@@ -1,0 +1,62 @@
+---
+type Props = { title: string; minutes: number };
+const { title, minutes } = Astro.props;
+---
+
+<div
+  id="post-strip"
+  class="sticky top-0 z-20 border-b border-rule bg-ground font-mono text-label tracking-(--text-label--letter-spacing) text-subtle uppercase"
+>
+  <div class="mx-auto flex max-w-wrap items-center gap-4 px-4 pt-[9px] pb-2 leading-5">
+    <a
+      id="strip-back"
+      href="/posts/"
+      class="shrink-0 text-accent no-underline hover:underline"
+    >
+      ◂ Posts
+    </a>
+    <span
+      id="strip-title"
+      aria-hidden="true"
+      class="min-w-0 flex-1 truncate font-sans text-[13.5px] tracking-normal text-ink normal-case opacity-0 transition-opacity duration-200 data-on:opacity-100"
+    >
+      {title}
+    </span>
+    <span class="ms-auto shrink-0">{minutes} min</span>
+  </div>
+  <div
+    id="strip-bar"
+    class="absolute start-0 bottom-[-1px] h-0.5 w-0 bg-accent"
+    aria-hidden="true"
+  ></div>
+</div>
+
+<script>
+  function initStrip() {
+    const strip = document.querySelector("#post-strip");
+    if (!strip) return;
+
+    const back = strip.querySelector<HTMLAnchorElement>("#strip-back");
+    const backUrl = sessionStorage.getItem("backUrl");
+    if (back && backUrl && backUrl !== location.pathname) back.href = backUrl;
+
+    const bar = strip.querySelector<HTMLElement>("#strip-bar");
+    const onScroll = () => {
+      const el = document.documentElement;
+      const max = el.scrollHeight - el.clientHeight;
+      if (bar) bar.style.width = `${max > 0 ? (el.scrollTop / max) * 100 : 0}%`;
+    };
+    document.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    const title = strip.querySelector<HTMLElement>("#strip-title");
+    const h1 = document.querySelector("#post-title");
+    if (title && h1) {
+      new IntersectionObserver(([entry]) => {
+        title.toggleAttribute("data-on", !entry.isIntersecting);
+      }).observe(h1);
+    }
+  }
+
+  document.addEventListener("astro:page-load", initStrip);
+</script>
