@@ -44,8 +44,8 @@ exposed to Tailwind through `@theme inline`.
 | `--icode` | — | `7%` | `10%` | inline-code tint strength (`color-mix` with ink) |
 
 > The reference calls the label colour `--muted`; here it's `--subtle` because
-> `muted` is already a Tailwind surface token in this codebase. `--muted` stays as a
-> deprecated alias of `--sheet` until every usage is gone.
+> `muted` used to be a surface token in this codebase. The old AstroPaper names
+> (`background`, `foreground`, `muted`, `border`) were removed in step 7.
 
 ### 2.2 Typography
 
@@ -105,6 +105,8 @@ Google Sans Code.
 | Chips (`Tag`, `Category`) | mono 12px, `border-rule bg-sheet`, radius 2, `px-2 py-0.5`, hover ink. |
 
 ## 4. Implementation plan
+
+> **Status:** all seven steps shipped (PRs #3–#9).
 
 Each step is one small PR, squash-merged into `main`, and must pass
 `pnpm run build` and `pnpm run lint` on its own.

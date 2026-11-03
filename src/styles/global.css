@@ -16,12 +16,6 @@ html[data-theme="light"] {
   --accent: #b32b19;
   --on-accent: #ffffff;
   --icode: 7%;
-
-  /* deprecated aliases — removed once every usage is migrated */
-  --background: var(--ground);
-  --foreground: var(--ink);
-  --muted: var(--sheet);
-  --border: var(--rule);
 }
 
 html[data-theme="dark"] {
@@ -41,7 +35,6 @@ html[data-theme="dark"] {
   --font-serif: var(--font-literata), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-fira-sans), "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-fira-code), ui-monospace, Menlo, Consolas, monospace;
-  --font-app: var(--font-sans);
 
   --color-ground: var(--ground);
   --color-sheet: var(--sheet);
@@ -51,11 +44,6 @@ html[data-theme="dark"] {
   --color-rule: var(--rule);
   --color-accent: var(--accent);
   --color-on-accent: var(--on-accent);
-
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-border: var(--border);
 
   --text-read: clamp(17px, 16.55px + 0.111vw, 18px);
   --text-read--line-height: 1.65;
