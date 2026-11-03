@@ -27,7 +27,7 @@ The build pipeline runs `astro check && astro build && pagefind --site dist && c
 Key layers:
 - **`src/config.ts`** — Central site configuration (author, pagination, OG settings, timezone)
 - **`src/constants.ts`** — Social media links
-- **`src/content.config.ts`** — Blog collection schema using Astro's glob loader; only `**/[^_]*.md` files are collected (underscore-prefixed files/folders are excluded from collection but don't affect URLs). Defines `CATEGORIES` enum: "Personal Projects", "Software Development", "Software Management", "Others"
+- **`src/content.config.ts`** — Blog collection schema using Astro's glob loader; collects `**/[^_]*.md` except anything under `src/data/blog/_archived/` (retired posts kept in the repo, never published — move a file out of `_archived/` to republish it). Underscore-prefixed file names are also excluded. `CATEGORIES` (active) is just `"Healthcare"`; the retired ones live in `ARCHIVED_CATEGORIES` — re-add a category to `CATEGORIES` before un-archiving a post that uses it. Every active category gets a page even with zero posts.
 - **`src/utils/`** — Post filtering (`postFilter.ts` excludes drafts and future-dated posts), sorting (`getSortedPosts.ts`), slugification, OG image generation via Satori+Resvg, category helpers (`getPostsByCategory.ts`, `getUniqueCategories.ts`)
 - **`src/pages/`** — File-based routing; includes dynamic routes for posts (`[...slug]`), tags (`[tag]/[...page]`), categories (`categories/[category]/[...page]`), and programmatic endpoints (RSS, robots.txt, OG images as `.png.ts` files)
 - **`src/layouts/`** — `Layout.astro` is the root layout; `PostDetails.astro` handles individual posts
@@ -42,7 +42,7 @@ Key layers:
 
 ## Blog Post Frontmatter
 
-Required fields: `title`, `pubDatetime`, `description`, `category` (must be one of the `CATEGORIES` enum values, defaults to "Others"). Posts with `draft: true` or future `pubDatetime` are filtered out in production. The `@/*` path alias maps to `./src/*`.
+Required fields: `title`, `pubDatetime`, `description`, `category` (must be one of the `CATEGORIES` enum values, defaults to "Healthcare"). Posts with `draft: true` or future `pubDatetime` are filtered out in production. The `@/*` path alias maps to `./src/*`.
 
 ## Code Conventions
 

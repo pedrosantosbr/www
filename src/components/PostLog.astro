@@ -12,20 +12,24 @@ type Props = {
 const { posts, columns = true, dateFormat } = Astro.props;
 ---
 
-<div>
-  {columns && (
-    <div
-      aria-hidden="true"
-      class="label hidden grid-cols-[minmax(0,1fr)_11ch_6ch] gap-x-4 border-b border-ink pb-2 text-[11.5px] tracking-[0.1em] sm:grid"
-    >
-      <span>Title</span>
-      <span class="text-end">Date</span>
-      <span class="text-end">Read</span>
-    </div>
-  )}
-  <ul>
-    {posts.map(post => (
-      <Card {...post} {dateFormat} />
-    ))}
-  </ul>
-</div>
+{posts.length === 0 ? (
+  <p class="label border-y border-rule py-6 text-center">No posts yet</p>
+) : (
+  <div>
+    {columns && (
+      <div
+        aria-hidden="true"
+        class="label hidden grid-cols-[minmax(0,1fr)_11ch_6ch] gap-x-4 border-b border-ink pb-2 text-[11.5px] tracking-[0.1em] sm:grid"
+      >
+        <span>Title</span>
+        <span class="text-end">Date</span>
+        <span class="text-end">Read</span>
+      </div>
+    )}
+    <ul>
+      {posts.map(post => (
+        <Card {...post} {dateFormat} />
+      ))}
+    </ul>
+  </div>
+)}
