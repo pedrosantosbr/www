@@ -3,17 +3,11 @@ import { render, type CollectionEntry } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import Tag from "@/components/Tag.astro";
-import Datetime from "@/components/Datetime.astro";
-import EditPost from "@/components/EditPost.astro";
-import ShareLinks from "@/components/ShareLinks.astro";
-import BackButton from "@/components/BackButton.astro";
-import BackToTopButton from "@/components/BackToTopButton.astro";
+import PostStrip from "@/components/post/PostStrip.astro";
+import PostHead from "@/components/post/PostHead.astro";
+import PostEnd from "@/components/post/PostEnd.astro";
 import { getPath } from "@/utils/getPath";
-import { slugifyStr } from "@/utils/slugify";
-import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
-import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
-import Category from "@/components/Category.astro";
+import { readingTime } from "@/utils/readingTime";
 import { SITE } from "@/config";
 
 type Props = {
@@ -32,10 +26,10 @@ const {
   pubDatetime,
   modDatetime,
   timezone,
-  tags,
   category,
-  hideEditPost,
 } = post.data;
+
+const minutes = readingTime(post.body);
 
 const { Content } = await render(post);
 
@@ -69,159 +63,52 @@ const layoutProps = {
   scrollSmooth: true,
 };
 
-/* ========== Prev/Next Posts ========== */
+/* ========== Newer/Older Posts (posts are sorted newest first) ========== */
 
-const allPosts = posts.map(({ data: { title }, id, filePath }) => ({
-  id,
-  title,
-  filePath,
-}));
+const currentPostIndex = posts.findIndex(p => p.id === post.id);
+const toLink = (p?: CollectionEntry<"blog">) =>
+  p ? { href: getPath(p.id, p.filePath), title: p.data.title } : null;
 
-const currentPostIndex = allPosts.findIndex(a => a.id === post.id);
-
-const prevPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
-const nextPost =
-  currentPostIndex !== allPosts.length ? allPosts[currentPostIndex + 1] : null;
+const newer = currentPostIndex > 0 ? toLink(posts[currentPostIndex - 1]) : null;
+const older = toLink(posts[currentPostIndex + 1]);
 ---
 
 <Layout {...layoutProps}>
   <Header />
-  <BackButton />
-  <main
-    id="main-content"
-    class:list={["app-layout pb-12", { "mt-8": !SITE.showBackButton }]}
-    data-pagefind-body
-  >
-    <h1
-      transition:name={slugifyStr(title.replaceAll(".", "-"))}
-      class="inline-block text-2xl font-bold text-accent sm:text-3xl"
-    >
-      {title}
-    </h1>
-    <div class="my-2 flex items-center gap-2">
-      <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
-      <span
-        aria-hidden="true"
-        class:list={[
-          "max-sm:hidden",
-          { hidden: !SITE.editPost.enabled || hideEditPost },
-        ]}
-      >
-        |
-      </span>
-      <EditPost {hideEditPost} {post} class="max-sm:hidden" />
-    </div>
-    <ul class="my-2 flex">
-      <Category
-        category={category}
-        categorySlug={slugifyStr(category)}
-        size="sm"
+  <PostStrip {title} {minutes} />
+  <main id="main-content" class="relative mx-auto w-full max-w-wrap px-4 pb-12">
+    <div class="mx-auto max-w-measure" data-pagefind-body>
+      <PostHead
+        {title}
+        {pubDatetime}
+        {modDatetime}
+        {timezone}
+        {minutes}
+        {category}
       />
-    </ul>
-    <article id="article" class="app-prose mt-8 w-full max-w-app">
-      <Content />
-    </article>
-
-    <hr class="my-8 border-dashed" />
-
-    <EditPost class="sm:hidden" {hideEditPost} {post} />
-
-    <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
-      {tags.map(tag => (
-        <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />
-      ))}
-    </ul>
-
-    <BackToTopButton />
-
-    <ShareLinks />
-
-    <hr class="my-6 border-dashed" />
-
-    <!-- Previous/Next Post Buttons -->
-    <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-      {prevPost && (
-        <a
-          href={getPath(prevPost.id, prevPost.filePath)}
-          class="flex w-full gap-1 hover:opacity-75"
-        >
-          <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
-          <div>
-            <span>Previous Post</span>
-            <div class="text-sm text-accent/85">{prevPost.title}</div>
-          </div>
-        </a>
-      )}
-      {nextPost && (
-        <a
-          href={getPath(nextPost.id, nextPost.filePath)}
-          class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
-        >
-          <div>
-            <span>Next Post</span>
-            <div class="text-sm text-accent/85">{nextPost.title}</div>
-          </div>
-          <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
-        </a>
-      )}
+      <article id="article" class="app-prose w-full pt-[clamp(28px,4vw,44px)]">
+        <Content />
+      </article>
+    </div>
+    <div class="mx-auto max-w-measure">
+      <PostEnd {post} {newer} {older} />
     </div>
   </main>
   <Footer />
 </Layout>
 
 <script is:inline data-astro-rerun>
-  /** Create a progress indicator
-   *  at the top */
-  function createProgressBar() {
-    // Create the main container div
-    const progressContainer = document.createElement("div");
-    progressContainer.className =
-      "progress-container fixed top-0 z-10 h-1 w-full bg-background";
-
-    // Create the progress bar div
-    const progressBar = document.createElement("div");
-    progressBar.className = "progress-bar h-1 w-0 bg-accent";
-    progressBar.id = "myBar";
-
-    // Append the progress bar to the progress container
-    progressContainer.appendChild(progressBar);
-
-    // Append the progress container to the document body or any other desired parent element
-    document.body.appendChild(progressContainer);
-  }
-  createProgressBar();
-
-  /** Update the progress bar
-   *  when user scrolls */
-  function updateScrollProgress() {
-    document.addEventListener("scroll", () => {
-      const winScroll =
-        document.body.scrollTop || document.documentElement.scrollTop;
-      const height =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-      const scrolled = (winScroll / height) * 100;
-      if (document) {
-        const myBar = document.getElementById("myBar");
-        if (myBar) {
-          myBar.style.width = scrolled + "%";
-        }
-      }
-    });
-  }
-  updateScrollProgress();
-
   /** Attaches links to headings in the document,
    *  allowing sharing of sections easily */
   function addHeadingLinks() {
     const headings = Array.from(
-      document.querySelectorAll("h2, h3, h4, h5, h6")
+      document.querySelectorAll("#article :is(h2, h3, h4, h5, h6)")
     );
     for (const heading of headings) {
       heading.classList.add("group");
       const link = document.createElement("a");
       link.className =
-        "heading-link ms-2 no-underline opacity-75 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100";
+        "heading-link ms-2 font-mono font-normal text-subtle no-underline opacity-75 hover:text-accent md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100";
       link.href = "#" + heading.id;
 
       const span = document.createElement("span");
@@ -254,7 +141,7 @@ const nextPost =
         : "-top-3";
 
       const copyButton = document.createElement("button");
-      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
+      copyButton.className = `copy-code absolute end-3 ${topClass} rounded-[3px] border border-rule bg-ground px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.08em] text-subtle hover:text-ink`;
       copyButton.innerHTML = copyButtonLabel;
       codeBlock.setAttribute("tabindex", "0");
       codeBlock.appendChild(copyButton);
