@@ -1,0 +1,79 @@
+---
+import type { MarkdownHeading } from "astro";
+
+type Props = { headings: MarkdownHeading[] };
+
+const items = Astro.props.headings.filter(
+  h => (h.depth === 2 || h.depth === 3) && h.slug !== "table-of-contents"
+);
+---
+
+{items.length > 1 && (
+  <aside
+    aria-label="Contents"
+    class="absolute inset-y-0 start-4 hidden w-[calc((100%-var(--container-measure))/2-56px)] pt-[calc(clamp(34px,6vw,76px)+10px)] rail:block"
+  >
+    <nav
+      id="toc-rail"
+      class="sticky top-[64px] max-h-[calc(100vh-96px)] overflow-y-auto font-mono text-[12.5px] leading-[1.35] [scrollbar-width:thin]"
+    >
+      <div class="label mb-2.5 text-[11.5px] tracking-[0.12em]">Contents</div>
+      <ul>
+        {items.map(({ slug, text, depth }) => (
+          <li>
+            <a
+              href={`#${slug}`}
+              data-slug={slug}
+              class:list={[
+                "block py-1 text-subtle no-underline hover:text-ink aria-[current=true]:text-ink",
+                { "ps-[2ch] text-[12px]": depth === 3 },
+              ]}
+            >
+              {text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </aside>
+)}
+
+<script>
+  function initTocRail() {
+    const rail = document.querySelector("#toc-rail");
+    if (!rail) return;
+
+    const links = Array.from(
+      rail.querySelectorAll<HTMLAnchorElement>("a[data-slug]")
+    );
+    const targets = links
+      .map(a => document.getElementById(a.dataset.slug ?? ""))
+      .filter((el): el is HTMLElement => el !== null);
+
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      let current = targets[0];
+      for (const t of targets) {
+        if (t.getBoundingClientRect().top < 120) current = t;
+        else break;
+      }
+      for (const a of links) {
+        a.setAttribute("aria-current", String(a.dataset.slug === current?.id));
+      }
+    };
+    document.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true }
+    );
+    update();
+  }
+
+  document.addEventListener("astro:page-load", initTocRail);
+</script>

@@ -124,7 +124,16 @@
       @apply flex-[1_0_100%] bg-inherit p-0;
     }
 
-    /* remark-toc + remark-collapse block */
+    /* remark-toc + remark-collapse block — replaced by the rail on wide screens */
+    @variant rail {
+      > #table-of-contents,
+      > #table-of-contents + p:empty,
+      > #table-of-contents + p:empty + details,
+      > #table-of-contents + details {
+        display: none;
+      }
+    }
+
     details {
       @apply inline-block cursor-pointer font-sans text-[15px] text-ink select-none [&_p]:hidden [&_ul]:my-0!;
     }
