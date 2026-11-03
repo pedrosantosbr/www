@@ -19,7 +19,7 @@ const titleClass =
 <main data-backUrl={backUrl} id="main-content" class="app-layout pb-4">
   {"titleTransition" in props ? (
     <h1 class={titleClass}>
-      {props.pageTitle[0]}
+      {props.pageTitle[0]}{" "}
       <span transition:name={props.titleTransition}>{props.pageTitle[1]}</span>
     </h1>
   ) : (
