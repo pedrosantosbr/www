@@ -105,8 +105,10 @@ const nextPost =
         class:list={[
           "max-sm:hidden",
           { hidden: !SITE.editPost.enabled || hideEditPost },
-        ]}>|</span
+        ]}
       >
+        |
+      </span>
       <EditPost {hideEditPost} {post} class="max-sm:hidden" />
     </div>
     <ul class="my-2 flex">
@@ -116,10 +118,7 @@ const nextPost =
         size="sm"
       />
     </ul>
-    <article
-      id="article"
-      class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
-    >
+    <article id="article" class="app-prose mt-8 w-full max-w-app">
       <Content />
     </article>
 
@@ -128,7 +127,9 @@ const nextPost =
     <EditPost class="sm:hidden" {hideEditPost} {post} />
 
     <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
-      {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />)}
+      {tags.map(tag => (
+        <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />
+      ))}
     </ul>
 
     <BackToTopButton />
@@ -139,34 +140,30 @@ const nextPost =
 
     <!-- Previous/Next Post Buttons -->
     <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-      {
-        prevPost && (
-          <a
-            href={getPath(prevPost.id, prevPost.filePath)}
-            class="flex w-full gap-1 hover:opacity-75"
-          >
-            <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
-            <div>
-              <span>Previous Post</span>
-              <div class="text-sm text-accent/85">{prevPost.title}</div>
-            </div>
-          </a>
-        )
-      }
-      {
-        nextPost && (
-          <a
-            href={getPath(nextPost.id, nextPost.filePath)}
-            class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
-          >
-            <div>
-              <span>Next Post</span>
-              <div class="text-sm text-accent/85">{nextPost.title}</div>
-            </div>
-            <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
-          </a>
-        )
-      }
+      {prevPost && (
+        <a
+          href={getPath(prevPost.id, prevPost.filePath)}
+          class="flex w-full gap-1 hover:opacity-75"
+        >
+          <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
+          <div>
+            <span>Previous Post</span>
+            <div class="text-sm text-accent/85">{prevPost.title}</div>
+          </div>
+        </a>
+      )}
+      {nextPost && (
+        <a
+          href={getPath(nextPost.id, nextPost.filePath)}
+          class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
+        >
+          <div>
+            <span>Next Post</span>
+            <div class="text-sm text-accent/85">{nextPost.title}</div>
+          </div>
+          <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
+        </a>
+      )}
     </div>
   </main>
   <Footer />
@@ -291,7 +288,6 @@ const nextPost =
   document.addEventListener("astro:after-swap", () =>
     window.scrollTo({ left: 0, top: 0, behavior: "instant" })
   );
-
 </script>
 
 <script>
