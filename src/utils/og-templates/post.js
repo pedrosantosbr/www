@@ -132,6 +132,7 @@ export default async post => {
               style: {
                 border: "4px solid #000",
                 background: "#fefbfb",
+                position: "relative",
                 borderRadius: "4px",
                 display: "flex",
                 justifyContent: "center",
