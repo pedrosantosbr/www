@@ -17,11 +17,9 @@ const categories = getUniqueCategories(posts);
   <Header />
   <Main pageTitle="Categories" pageDesc="All the categories used in posts.">
     <ul class="flex flex-wrap gap-6">
-      {
-        categories.map(({ category, categorySlug }) => (
-          <Category {category} {categorySlug} />
-        ))
-      }
+      {categories.map(({ category, categorySlug }) => (
+        <Category {category} {categorySlug} />
+      ))}
     </ul>
   </Main>
   <Footer />
