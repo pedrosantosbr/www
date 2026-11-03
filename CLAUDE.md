@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-AstroPaper — a static blog theme built with Astro 5, TypeScript, and Tailwind CSS v4. Deployed on Cloudflare Pages.
+AstroPaper — a static blog theme built with Astro 7, TypeScript, and Tailwind CSS v4. Deployed on Cloudflare Pages.
 
 ## Commands
 
@@ -32,13 +32,13 @@ Key layers:
 - **`src/pages/`** — File-based routing; includes dynamic routes for posts (`[...slug]`), tags (`[tag]/[...page]`), categories (`categories/[category]/[...page]`), and programmatic endpoints (RSS, robots.txt, OG images as `.png.ts` files)
 - **`src/layouts/`** — `Layout.astro` is the root layout; `PostDetails.astro` handles individual posts
 
-**Theming:** Tailwind v4 with CSS custom properties defined in `src/styles/global.css` using `@theme inline`. Dark mode uses `[data-theme="dark"]` selector, toggled by `src/scripts/theme.ts`.
+**Theming:** "Paper" design system — tokens, type roles and component spec are documented in `docs/design-system.md`. Tokens (`ground`, `sheet`, `ink`, `soft`, `subtle`, `rule`, `accent`; `text-read`/`text-title`/`text-h2`/`text-label`; `max-w-wrap`/`max-w-measure`; `rail:` breakpoint at 1100px; `label` utility) are CSS custom properties in `src/styles/global.css` exposed via `@theme inline`. Fonts: Literata (reading), Fira Sans (UI/headings), Fira Code (labels) via Astro `fonts`. Dark mode uses `[data-theme="dark"]`, toggled by `src/scripts/theme.ts`. Post page pieces live in `src/components/post/` (`PostStrip`, `PostHead`, `TocRail`, `PostEnd`); listings use `PostLog` + `Card`.
 
 **OG Images:** Dynamic generation using Satori templates in `src/utils/og-templates/`. Each post gets an auto-generated OG image via `src/pages/posts/[...slug]/index.png.ts`.
 
 **Search:** Pagefind provides client-side full-text search. The index lives in `public/pagefind/` and is rebuilt during `pnpm run build`.
 
-**Markdown plugins:** `remark-toc` auto-generates table of contents; `remark-collapse` wraps it in a collapsible `<details>`. Shiki provides syntax highlighting with `min-light`/`night-owl` themes.
+**Markdown plugins:** configured through `markdown.processor: unified({...})` (`@astrojs/markdown-remark`). `remark-toc` auto-generates table of contents; `remark-collapse` wraps it in a collapsible `<details>`. Shiki provides syntax highlighting with `min-light`/`night-owl` themes.
 
 ## Blog Post Frontmatter
 

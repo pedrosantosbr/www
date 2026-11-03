@@ -2,27 +2,34 @@
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import LinkButton from "@/components/LinkButton.astro";
 import { SITE } from "@/config";
+
+const linkClass = "underline underline-offset-[0.18em] hover:decoration-accent";
 ---
 
 <Layout title={`404 Not Found | ${SITE.title}`}>
   <Header />
 
-  <main
-    id="main-content"
-    class="app-layout flex flex-1 items-center justify-center"
-  >
-    <div class="mb-14 flex flex-col items-center justify-center">
-      <h1 class="text-9xl font-bold text-accent">404</h1>
-      <span aria-hidden="true">¯\_(ツ)_/¯</span>
-      <p class="mt-4 text-2xl sm:text-3xl">Page Not Found</p>
-      <LinkButton
-        href="/"
-        class="my-6 text-lg underline decoration-dashed underline-offset-8"
-      >
-        Go back home
-      </LinkButton>
+  <main id="main-content" class="app-layout flex flex-1 items-center">
+    <div class="py-16">
+      <p class="label mb-4 text-[11.5px] tracking-[0.1em]">Error 404</p>
+      <h1 class="font-serif text-title font-bold tracking-(--text-title--letter-spacing) text-ink">
+        This page is not here.
+      </h1>
+      <p class="mt-4 font-serif text-read text-soft">
+        It may have moved, or it never existed. Try the{" "}
+        <a href="/posts/" class={linkClass}>
+          post list
+        </a>{" "}
+        or{" "}
+        <a href="/search/" class={linkClass}>
+          search
+        </a>
+        .
+      </p>
+      <a href="/" class="label mt-8 inline-block no-underline hover:text-ink">
+        ◂ Home
+      </a>
     </div>
   </main>
 

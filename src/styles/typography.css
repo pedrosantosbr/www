@@ -152,7 +152,7 @@
 
   /* ===== Code Blocks & Syntax Highlighting ===== */
   .astro-code {
-    @apply flex border border-rule bg-sheet! text-(--shiki-light) outline-rule [&_span]:text-(--shiki-light);
+    @apply flex border border-rule bg-sheet! text-(--shiki-light) [&_span]:text-(--shiki-light);
   }
 
   html[data-theme="dark"] .astro-code {
