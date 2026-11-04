@@ -15,9 +15,7 @@ const FOCUS = ["AI", "Healthcare", "Data"];
 
 const posts = await getCollection("blog");
 
-const sortedPosts = getSortedPosts(posts);
-// const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+const latestPosts = getSortedPosts(posts).slice(0, SITE.postPerIndex);
 ---
 
 <Layout>
@@ -59,17 +57,17 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
       )}
     </section>
 
-    {recentPosts.length > 0 && (
-      <section id="recent-posts" class="border-t border-rule pt-10 pb-6">
-        <h2 class="label mb-3 text-[11.5px] tracking-[0.1em]">Recent posts</h2>
-        <PostLog posts={recentPosts.slice(0, SITE.postPerIndex)} />
+    <section id="latest-posts" class="border-t border-rule pt-10 pb-6">
+      <h2 class="label mb-3 text-[11.5px] tracking-[0.1em]">Latest posts</h2>
+      <PostLog posts={latestPosts} />
+      {latestPosts.length > 0 && (
         <div class="my-6 text-end">
           <a href="/posts/" class="label no-underline hover:text-ink">
             All posts ▸
           </a>
         </div>
-      </section>
-    )}
+      )}
+    </section>
   </main>
   <Footer />
 </Layout>
