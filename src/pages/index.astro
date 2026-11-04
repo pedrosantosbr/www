@@ -5,13 +5,12 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
 import PostLog from "@/components/PostLog.astro";
+import FocusLine from "@/components/FocusLine.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
 import { Image } from "astro:assets";
 import profile from "@/assets/images/pedro-profile.png";
 import { SITE } from "@/config";
 import { SOCIALS } from "@/constants";
-
-const FOCUS = ["AI", "Healthcare", "Data"];
 
 const posts = await getCollection("blog");
 
@@ -38,18 +37,7 @@ const latestPosts = getSortedPosts(posts).slice(0, SITE.postPerIndex);
       <h1 class="mt-1 font-serif text-[clamp(40px,6vw,56px)] leading-[1.05] font-bold tracking-[-0.015em] text-ink">
         Builder.
       </h1>
-      <p class="label mt-6 flex items-center gap-3 border-y border-rule px-1 py-2.5 text-[12.5px] tracking-[0.18em]">
-        {FOCUS.map((item, i) => (
-          <>
-            {i > 0 && (
-              <span aria-hidden="true" class="text-accent">
-                •
-              </span>
-            )}
-            <span>{item}</span>
-          </>
-        ))}
-      </p>
+      <FocusLine class="mt-6" />
       {SOCIALS.length > 0 && (
         <div class="mt-7">
           <Socials variant="boxed" />
