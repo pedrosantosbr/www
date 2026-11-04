@@ -1,0 +1,25 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/posts/predileto/:path*",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/posts/davin/:path*",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/posts/:slug(astro-paper-2|astro-paper-v3|astro-paper-v4|astro-paper-v5)/:path*",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/categories/:category(software-development|personal-projects|software-management|others)/:path*",
+      "destination": "/categories/",
+      "permanent": false
+    }
+  ]
+}
