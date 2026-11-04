@@ -3,9 +3,11 @@ layout: ../layouts/AboutLayout.astro
 title: "About"
 ---
 
-## Pedro H. S. Santos
+I'm Pedro H. S. Santos, a software engineer and tech lead based in Ponte de Lima, Portugal. I've been building products since 2016, most recently AI systems that turn large volumes of documents into something people can act on: clinical study reports for drug development, and early-signal reports for legal cases.
 
-Ponte de Lima, Portugal | pedro357bm@gmail.com | [LinkedIn](https://www.linkedin.com/in/pedro-henrique-souza-santos-920268220/)
+That's the work I want to keep doing, now focused on **healthcare**: AI and data products that are useful, measurable and trustworthy enough for the people who depend on them.
+
+[pedro357bm@gmail.com](mailto:pedro357bm@gmail.com) · [LinkedIn](https://www.linkedin.com/in/pedro-henrique-souza-santos-920268220/) · [GitHub](https://github.com/pedrosantosbr) · [X](https://x.com/petrushenricus)
 
 ## Work Experience
 

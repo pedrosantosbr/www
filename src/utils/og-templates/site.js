@@ -1,9 +1,8 @@
 import satori from "satori";
 import { SITE } from "@/config";
+import { FOCUS } from "@/constants";
 import loadGoogleFonts from "../loadGoogleFont";
 import { C, h, label, hostname, profilePhoto } from "./paper";
-
-const FOCUS = ["AI", "Healthcare", "Data"];
 
 export default async () => {
   const photo = await profilePhoto();

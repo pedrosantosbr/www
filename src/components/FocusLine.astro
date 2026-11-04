@@ -1,0 +1,24 @@
+---
+import { FOCUS } from "@/constants";
+
+type Props = { class?: string };
+const { class: className } = Astro.props;
+---
+
+<p
+  class:list={[
+    "label inline-flex items-center gap-3 border-y border-rule px-1 py-2.5 text-[12.5px] tracking-[0.18em]",
+    className,
+  ]}
+>
+  {FOCUS.map((item, i) => (
+    <>
+      {i > 0 && (
+        <span aria-hidden="true" class="text-accent">
+          •
+        </span>
+      )}
+      <span>{item}</span>
+    </>
+  ))}
+</p>

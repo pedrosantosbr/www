@@ -9,6 +9,9 @@ import IconTelegram from "@/assets/icons/IconTelegram.svg";
 import IconPinterest from "@/assets/icons/IconPinterest.svg";
 import { SITE } from "@/config";
 
+/** Focus areas shown on the home hero, About page and site OG image. */
+export const FOCUS = ["AI", "Healthcare", "Data"] as const;
+
 interface Social {
   name: string;
   href: string;
