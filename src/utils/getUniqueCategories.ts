@@ -11,9 +11,7 @@ const getUniqueCategories = (posts: CollectionEntry<"blog">[]) => {
   const categories: CategoryItem[] = posts
     .filter(postFilter)
     .map(post => post.data.category)
-    .filter(
-      (value, index, self) => self.indexOf(value) === index
-    )
+    .filter((value, index, self) => self.indexOf(value) === index)
     .map(category => ({
       category,
       categorySlug: slugifyStr(category),
