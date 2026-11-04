@@ -1,16 +1,41 @@
 ---
 import { SOCIALS } from "@/constants";
 import LinkButton from "./LinkButton.astro";
+
+type Props = {
+  /** "boxed" = square bordered buttons (home hero) */
+  variant?: "plain" | "boxed";
+};
+
+const { variant = "plain" } = Astro.props;
+const boxed = variant === "boxed";
+const socials = SOCIALS.filter(s => s.href && s.href !== "#");
 ---
 
-<div class="flex flex-wrap items-center gap-0.5">
-  {SOCIALS.map(social => (
+<div
+  class:list={[
+    "flex flex-wrap items-center",
+    boxed ? "justify-center gap-2" : "gap-0.5",
+  ]}
+>
+  {socials.map(social => (
     <LinkButton
       href={social.href}
-      class="p-1.5 text-subtle"
+      class:list={[
+        "text-subtle",
+        boxed
+          ? "size-10 justify-center rounded-[4px] border border-rule bg-sheet hover:border-ink hover:text-ink"
+          : "p-1.5",
+      ]}
       title={social.linkTitle}
+      rel="me"
     >
-      <social.icon class="inline-block size-[18px] fill-transparent stroke-current stroke-2 group-hover:fill-transparent" />
+      <social.icon
+        class:list={[
+          "inline-block fill-transparent stroke-current stroke-2 group-hover:fill-transparent",
+          boxed ? "size-5" : "size-[18px]",
+        ]}
+      />
       <span class="sr-only">{social.linkTitle}</span>
     </LinkButton>
   ))}
