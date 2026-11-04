@@ -29,34 +29,28 @@ async function loadGoogleFont(
   return res.arrayBuffer();
 }
 
+/** Paper design-system faces (docs/design-system.md §2.2) for Satori OG images. */
+const fontsConfig = [
+  { name: "Literata", font: "Literata", weight: 700, style: "normal" },
+  { name: "Fira Sans", font: "Fira+Sans", weight: 400, style: "normal" },
+  { name: "Fira Code", font: "Fira+Code", weight: 400, style: "normal" },
+] as const;
+
 async function loadGoogleFonts(
   text: string
 ): Promise<
-  Array<{ name: string; data: ArrayBuffer; weight: number; style: string }>
+  Array<{ name: string; data: ArrayBuffer; weight: 700 | 400; style: "normal" }>
 > {
-  const fontsConfig = [
-    {
-      name: "IBM Plex Mono",
-      font: "IBM+Plex+Mono",
-      weight: 400,
-      style: "normal",
-    },
-    {
-      name: "IBM Plex Mono",
-      font: "IBM+Plex+Mono",
-      weight: 700,
-      style: "bold",
-    },
-  ];
-
-  const fonts = await Promise.all(
-    fontsConfig.map(async ({ name, font, weight, style }) => {
-      const data = await loadGoogleFont(font, text, weight);
-      return { name, data, weight, style };
-    })
+  // label text is uppercased in the templates, so subset both cases
+  const subset = text + text.toUpperCase() + "•·—/";
+  return Promise.all(
+    fontsConfig.map(async ({ name, font, weight, style }) => ({
+      name,
+      data: await loadGoogleFont(font, subset, weight),
+      weight,
+      style,
+    }))
   );
-
-  return fonts;
 }
 
 export default loadGoogleFonts;
