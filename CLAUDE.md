@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-AstroPaper — a static blog theme built with Astro 7, TypeScript, and Tailwind CSS v4. Deployed on Cloudflare Pages.
+AstroPaper — a static blog theme built with Astro 7, TypeScript, and Tailwind CSS v4. Deployed on Vercel (https://www-alpha-bice.vercel.app); every PR runs `.github/workflows/ci.yml` (lint, format:check, build) and must be green before merging.
 
 ## Commands
 
@@ -49,4 +49,4 @@ Required fields: `title`, `pubDatetime`, `description`, `category` (must be one 
 - `no-console` ESLint rule is enforced as error
 - Prettier uses 2-space tabs, 80 char width, no arrow parens, es5 trailing commas
 - Conventional commits (Commitizen configured via `cz.yaml`)
-- Node 20, pnpm 10.11.1
+- Node ≥22.23 (Astro 7 requirement; CI uses Node 22), pnpm 12.14.0

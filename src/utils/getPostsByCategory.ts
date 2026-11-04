@@ -4,9 +4,6 @@ import getSortedPosts from "./getSortedPosts";
 const getPostsByCategory = (
   posts: CollectionEntry<"blog">[],
   category: string
-) =>
-  getSortedPosts(
-    posts.filter(post => post.data.category === category)
-  );
+) => getSortedPosts(posts.filter(post => post.data.category === category));
 
 export default getPostsByCategory;
