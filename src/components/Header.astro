@@ -3,6 +3,7 @@ import IconMoon from "@/assets/icons/IconMoon.svg";
 import IconSearch from "@/assets/icons/IconSearch.svg";
 import IconSunHigh from "@/assets/icons/IconSunHigh.svg";
 import { SITE } from "@/config";
+import { hasPublishedPosts } from "@/utils/hasPublishedPosts";
 
 const { pathname } = Astro.url;
 
@@ -17,11 +18,20 @@ const isActive = (path: string) => {
   return currentPath === path || currentPathArray[0] === pathArray[0];
 };
 
+// Tags / Categories / Archives only make sense once there is something to list
+const hasPosts = await hasPublishedPosts();
+
 const links = [
   { href: "/posts", label: "Posts" },
-  { href: "/tags", label: "Tags" },
-  { href: "/categories", label: "Categories" },
-  ...(SITE.showArchives ? [{ href: "/archives", label: "Archives" }] : []),
+  ...(hasPosts
+    ? [
+        { href: "/tags", label: "Tags" },
+        { href: "/categories", label: "Categories" },
+        ...(SITE.showArchives
+          ? [{ href: "/archives", label: "Archives" }]
+          : []),
+      ]
+    : []),
   { href: "/about", label: "About" },
 ];
 
