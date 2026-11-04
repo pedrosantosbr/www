@@ -6,9 +6,12 @@ import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
 import PostLog from "@/components/PostLog.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
-import IconRss from "@/assets/icons/IconRss.svg";
+import { Image } from "astro:assets";
+import profile from "@/assets/images/pedro-profile.png";
 import { SITE } from "@/config";
 import { SOCIALS } from "@/constants";
+
+const FOCUS = ["AI", "Healthcare", "Data"];
 
 const posts = await getCollection("blog");
 
@@ -22,44 +25,51 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
   <main id="main-content" data-layout="index" class="app-layout">
     <section
       id="hero"
-      class="pt-[clamp(34px,7vw,88px)] pb-[clamp(26px,4vw,40px)]"
+      class="flex flex-col items-center pt-[clamp(40px,8vw,96px)] pb-[clamp(32px,5vw,56px)] text-center"
     >
-      <p class="label mb-4 text-[11.5px] tracking-[0.1em]">
-        {SITE.title} · Notes
-      </p>
-      <h1 class="font-serif text-title font-bold tracking-(--text-title--letter-spacing) text-ink">
-        Welcome to my personal blog.
+      <Image
+        src={profile}
+        alt={SITE.title}
+        width={224}
+        height={224}
+        loading="eager"
+        fetchpriority="high"
+        class="size-28 rounded-full border border-rule object-cover object-[50%_30%] p-1"
+      />
+      <p class="mt-6 font-sans text-[17px] text-soft">{SITE.title}</p>
+      <h1 class="mt-1 font-serif text-[clamp(40px,6vw,56px)] leading-[1.05] font-bold tracking-[-0.015em] text-ink">
+        Builder.
       </h1>
-      <p class="mt-4 max-w-[34em] font-serif text-read text-soft">
-        Writing about building products, software design and the things I learn
-        along the way. Feel free to snoop around.
+      <p class="label mt-6 flex items-center gap-3 border-y border-rule px-1 py-2.5 text-[12.5px] tracking-[0.18em]">
+        {FOCUS.map((item, i) => (
+          <>
+            {i > 0 && (
+              <span aria-hidden="true" class="text-accent">
+                •
+              </span>
+            )}
+            <span>{item}</span>
+          </>
+        ))}
       </p>
-      <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
-        <a
-          target="_blank"
-          href="/rss.xml"
-          class="label inline-flex items-center gap-1.5 rounded-[3px] border border-rule px-2 py-1 no-underline hover:border-ink hover:text-ink"
-          title="RSS Feed"
-        >
-          <IconRss class="size-3.5 stroke-current stroke-2" />
-          RSS
-        </a>
-        {SOCIALS.length > 0 && <Socials />}
-      </div>
+      {SOCIALS.length > 0 && (
+        <div class="mt-7">
+          <Socials variant="boxed" />
+        </div>
+      )}
     </section>
 
     {recentPosts.length > 0 && (
-      <section id="recent-posts" class="pt-4 pb-6">
+      <section id="recent-posts" class="border-t border-rule pt-10 pb-6">
         <h2 class="label mb-3 text-[11.5px] tracking-[0.1em]">Recent posts</h2>
         <PostLog posts={recentPosts.slice(0, SITE.postPerIndex)} />
+        <div class="my-6 text-end">
+          <a href="/posts/" class="label no-underline hover:text-ink">
+            All posts ▸
+          </a>
+        </div>
       </section>
     )}
-
-    <div class="my-6 text-end">
-      <a href="/posts/" class="label no-underline hover:text-ink">
-        All posts ▸
-      </a>
-    </div>
   </main>
   <Footer />
 </Layout>
