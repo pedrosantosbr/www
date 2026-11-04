@@ -4,7 +4,7 @@ export const SITE = {
   profile: "https://www.linkedin.com/in/pedro-henrique-souza-santos-920268220/",
   desc: "Builder — AI, Healthcare, Data. Notes on building software for healthcare.",
   title: "Pedro Santos",
-  ogImage: "astropaper-og.jpg",
+  ogImage: "", // empty = use the generated /og.png (src/utils/og-templates/site.js)
   lightAndDarkMode: true,
   postPerIndex: 4,
   postPerPage: 4,
