@@ -2,6 +2,7 @@
 import type { HTMLAttributes } from "astro/types";
 import Socials from "./Socials.astro";
 import { SITE } from "@/config";
+import { hasPublishedPosts } from "@/utils/hasPublishedPosts";
 
 const currentYear = new Date().getFullYear();
 
@@ -11,11 +12,17 @@ type Props = {
 
 const { noMarginTop = false, class: className, ...attrs } = Astro.props;
 
+const hasPosts = await hasPublishedPosts();
+
 const links = [
   { href: "/", label: "Home" },
   { href: "/posts/", label: "Posts" },
-  { href: "/tags/", label: "Tags" },
-  { href: "/categories/", label: "Categories" },
+  ...(hasPosts
+    ? [
+        { href: "/tags/", label: "Tags" },
+        { href: "/categories/", label: "Categories" },
+      ]
+    : []),
   { href: "/about/", label: "About" },
   { href: "/rss.xml", label: "RSS" },
 ];
